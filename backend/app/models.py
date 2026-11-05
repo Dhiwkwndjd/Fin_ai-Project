@@ -11,7 +11,6 @@ class User(Base):
     full_name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    # Две роли: "user" и "admin"
     role = Column(String, default="user", nullable=False)
 
 
@@ -23,8 +22,8 @@ class Account(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     name = Column(String, nullable=False)
-    type = Column(String, nullable=False)  # "card" или "cash"
-    balance = Column(Integer, default=0)  # сумма в тенге
+    type = Column(String, nullable=False)  
+    balance = Column(Integer, default=0)  
 
 
 class Category(Base):
@@ -35,7 +34,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     name = Column(String, nullable=False)
-    kind = Column(String, nullable=False)  # "income" (доход) или "expense" (расход)
+    kind = Column(String, nullable=False)  
 
 
 class Transaction(Base):
@@ -45,12 +44,10 @@ class Transaction(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     account_id = Column(Integer, ForeignKey("accounts.id"), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
-    amount = Column(Integer, nullable=False)  # в тенге
-    kind = Column(String, nullable=False)  # "income" или "expense"
+    amount = Column(Integer, nullable=False)  
+    kind = Column(String, nullable=False)  
     description = Column(String, default="")
     date = Column(Date, nullable=False)
-
-    # relationship позволяет написать transaction.category.name
     account = relationship("Account")
     category = relationship("Category")
 
@@ -63,7 +60,7 @@ class Budget(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
-    month = Column(String, nullable=False)  # формат "2026-10"
+    month = Column(String, nullable=False)  
     limit_amount = Column(Integer, nullable=False)
 
     category = relationship("Category")

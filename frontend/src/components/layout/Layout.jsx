@@ -1,7 +1,15 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
+import { useReferenceStore } from "../../store/referenceStore";
 
 export default function Layout() {
+  const loadReferenceData = useReferenceStore((state) => state.loadReferenceData);
+
+  useEffect(() => {
+    loadReferenceData();
+  }, [loadReferenceData]);
+
   return (
     <div className="min-h-screen">
       <Navbar />
